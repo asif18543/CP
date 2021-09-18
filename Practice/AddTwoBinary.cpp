@@ -1,33 +1,33 @@
-string addBinary(string a, string b)
-{
-    string result = ""; // Initialize result
-    int s = 0;          // Initialize digit sum
- 
-    // Traverse both strings starting from last
-    // characters
-    int i = a.size() - 1, j = b.size() - 1;
-    while (i >= 0 || j >= 0 || s == 1)
-    {
-        // Comput sum of last digits and carry
-        s += ((i >= 0)? a[i] - '0': 0);
-        s += ((j >= 0)? b[j] - '0': 0);
- 
-        // If current digit sum is 1 or 3, add 1 to result
-        result = char(s % 2 + '0') + result;
- 
-        // Compute carry
-        s /= 2;
- 
-        // Move to next digits
-        i--; j--;
+string addBinary(string a, string b) {
+    
+    int carry = 0;
+    if(a.size() < b.size()){
+        string temp = a;
+        a = b;
+        b = temp;
     }
-    return result;
-}
- 
-// Driver program
-int main()
-{
-    string a = "1101", b="100";
-    cout << addBinary(a, b) << endl;
-    return 0;
+    while(b.size()<a.size()){
+        b = "0" + b;
+    }
+    string ans;
+    for(int i=a.size()-1;i>=0;i--){
+        int add = (a[i]-'0') + (b[i]-'0') + carry;
+        if(add==3){
+            ans = "1" + ans;
+            carry = 1;
+        }else if(add==1){
+            ans = "1" + ans;
+            carry = 0;
+        }else if(add==0){
+            ans = "0" + ans;
+            carry=0;
+        }else if(add==2){
+            ans = "0" + ans;
+            carry = 1;
+        }
+    }
+    if(carry == 1){
+        ans = "1" + ans;
+    }
+        return ans;
 }
